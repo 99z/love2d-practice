@@ -3,6 +3,7 @@ game = {}
 function game.load()
   -- time since game was loaded
   game.clock = 0
+  game.score = 0
 
   game.enemy_size = imgs["enemy"]:getWidth()
   game.enemies = {}
@@ -73,6 +74,23 @@ function game.draw()
                           )
     end
   end
+
+  love.graphics.setColor(fontcolor.r, fontcolor.g, fontcolor.b)
+  love.graphics.printf(
+    "score:"..game.score..
+    " ammo:"..game.ammo,
+    0, 0, love.graphics.getWidth(), "center"
+  )
+
+  if debug then love.graphics.print(
+    "enemies: "..#game.enemies..
+    "\nbullets: "..#game.bullets..
+    "\nenemy_rate: "..game.enemy_rate..
+    "\nFPS: "..love.timer.getFPS(),
+    0, 14*scale
+    )
+  end
+  love.graphics.setColor(255, 255, 255)
 end
 
 function game.dist(x1, y1, x2, y2)
@@ -136,6 +154,7 @@ function game.update(dt)
 
     for ei, ev in ipairs(game.enemies) do
       if game.dist(bv.x, bv.y, ev.x, ev.y) < (2+8)*scale then
+        game.score = game.score + 1
         table.remove(game.enemies, ei)
         table.remove(game.bullets, bi)
       end
