@@ -53,6 +53,10 @@ function game.draw()
   end
 end
 
+function game.dist(x1, y1, x2, y2)
+  return math.sqrt((x1 - x2)^2 + (y1 - y2)^2)
+end
+
 function game.update(dt)
   game.clock = game.clock + dt
 
@@ -75,6 +79,28 @@ function game.update(dt)
     if ev.y > 144*scale then
       table.remove(game.enemies, ei)
     end
+
+    -- 12 is half player size
+    if game.dist(game.playerx, game.playery, ev.x, ev.y) < (12+8)*scale then
+      splash.load()
+      state = "splash"
+    end
+  end
+
+  if love.keyboard.isDown("right") then
+    game.playerx = game.playerx + 100 * dt * scale
+  end
+
+  if love.keyboard.isDown("left") then
+    game.playerx = game.playerx - 100 * dt * scale
+  end
+
+  if game.playerx > 160 * scale then
+    game.playerx = 160 * scale
+  end
+
+  if game.playerx < 0 then
+    game.playerx = 0
   end
 end
 
