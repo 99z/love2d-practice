@@ -1,5 +1,6 @@
 debug = false
 require('splash')
+require('game')
 
 function love.load()
   img_fn = {"bullet", "enemy", "player", "title", "background"}
@@ -28,6 +29,7 @@ function love.load()
 
   state = "splash"
   splash.load()
+  game.load()
 end
 
 function love.draw()
@@ -43,18 +45,24 @@ function love.draw()
 
   if state == "splash" then
     splash.draw()
+  elseif state == "game" then
+    game.draw()
   end
 end
 
 function love.update(dt)
   if state == "splash" then
     splash.update(dt)
+  elseif state == "game" then
+    game.update(dt)
   end
 end
 
 function love.keypressed(key)
   if state == "splash" then
     splash.keypressed(key)
+  elseif state == "game" then
+    game.keypressed(key)
   end
 
   if key == "`" then
